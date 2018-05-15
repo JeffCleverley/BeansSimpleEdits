@@ -14,7 +14,7 @@ Each content area has an textarea input in the admin where you can add custom co
 
 If you add custom content then the default content is not shown.  
 
-Each Content Area can be disabled and removed.
+Each Content Area can be disabled and removed with a checkbox in the admin.
 
 *Central content area is a new area, if enabled it will replace the left and right split content areas from the default footer.
 
