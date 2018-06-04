@@ -18,6 +18,9 @@ class Beans_Simple_Edits_Admin {
 	 */
 	public $simple_edits;
 
+	public $simple_shortcodes;
+
+
 	/**
 	 * Constructor.
 	 *
@@ -28,6 +31,12 @@ class Beans_Simple_Edits_Admin {
 		$this->plugin_version    = Beans_Simple_Edits()->plugin_version;
 		$this->plugin_textdomain = Beans_Simple_Edits()->plugin_textdomain;
 		$this->simple_edits      = Beans_Simple_Edits()->simple_edits;
+
+		if( class_exists( 'LearningCurve\BeansSimpleShortcodes\Beans_Simple_Shortcodes' ) ) {
+			$this->simple_shortcodes = \LearningCurve\BeansSimpleShortcodes\Beans_Simple_Shortcodes()->enabled_shortcodes;
+			array_unshift( $this->simple_edits, 'simple_shortcodes' );
+		}
+
 	}
 
 	/**
@@ -78,6 +87,36 @@ class Beans_Simple_Edits_Admin {
 
 		require __DIR__ . "/views/admin.php";
 
+	}
+
+	public function register_simple_shortcodes_edits() {
+
+		$shortcodes = $this->simple_shortcodes;
+
+		$available_shortcodes = [];
+
+		foreach ($shortcodes as $shortcode) {
+			$available_shortcodes[] = '<span style="display: inline-block; margin: 10px 15px;"> [beans_' . $shortcode . ']</span>';
+		}
+
+		$available_shortcodes = implode(" ", $available_shortcodes);
+
+		$shortcodes_settings= esc_url( get_site_url() . '/wp-admin/themes.php?page=beans_simple_shortcodes_settings' );
+
+		$fields = array(
+			array(
+				'id'          => 'beans_available_simple_shortcodes',
+				'label'     => __( 'For a full description of each shortcodes functionality and attributes, and to enable or disable different shortcodes, please refer to the <a href="' . $shortcodes_settings . '">Beans Simple Shortcodes settings page</a>', $this->plugin_textdomain ),
+				'description' => __( "<p style='text-align: left;'>{$available_shortcodes}</p>", $this->plugin_textdomain ),
+				'type'        => '',
+				'default'     => ''
+			),
+		);
+
+		beans_register_options( $fields, 'beans_simple_edits_settings', 'available_beans_simple_shortcodes', array(
+			'title'   => __( 'Available Beans Simple Shortcodes', $this->plugin_textdomain ),
+			'context' => 'normal',
+		) );
 	}
 
 	/**

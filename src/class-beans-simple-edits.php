@@ -2,6 +2,7 @@
 
 namespace LearningCurve\BeansSimpleEdits;
 
+
 class Beans_Simple_Edits {
 
 	/**
@@ -39,6 +40,10 @@ class Beans_Simple_Edits {
 	 */
 	public $admin;
 
+	public $simple_shortcodes;
+
+	public $test;
+
 	/**
 	 * Constructor.
 	 *
@@ -46,9 +51,11 @@ class Beans_Simple_Edits {
 	 */
 	function __construct() {
 
+		$edits_array = array( 'post_meta', 'split_footer', 'center_footer' );
+
 		$this->plugin_dir_url  = plugin_dir_url( __FILE__ );
 		$this->plugin_dir_path = plugin_dir_path( __FILE__ );
-		$this->simple_edits    = array( 'post_meta', 'split_footer', 'center_footer' );
+		$this->simple_edits    = $edits_array;
 
 	}
 
