@@ -40,10 +40,6 @@ class Beans_Simple_Edits {
 	 */
 	public $admin;
 
-	public $simple_shortcodes;
-
-	public $test;
-
 	/**
 	 * Constructor.
 	 *

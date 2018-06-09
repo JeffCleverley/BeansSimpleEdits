@@ -10,52 +10,52 @@ class Beans_Simple_Edits_Core {
 	public $plugin_textdomain;
 
 	/**
-	 * Post meta above content option.
+	 * Content from the Beans Simple Edits Entry Meta (Above Content) textarea.
 	 */
 	private $post_meta_above_content;
 
 	/**
-	 * Remove post meta above content option.
+	 * Checkbox state to remove the Entry Meta (Above Content) span completely. - If enabled then remove.
 	 */
 	private $remove_post_meta_above_content;
 
 	/**
-	 * Post meta below content option.
+	 * Content from the Beans Simple Edits Entry Meta (Below Content) textarea.
 	 */
 	private $post_meta_below_content;
 
 	/**
-	 * Remove post meta below content option.
+	 * Checkbox state to remove the Entry Meta (Above Content) span completely - if enabled then remove.
 	 */
 	private $remove_post_meta_below_content;
 
 	/**
-	 * Split footer left content option.
+	 * Content from the Beans Simple Edits Split Footer (Left) textarea.
 	 */
 	private $split_footer_left;
 
 	/**
-	 * Remove split footer left content option.
+	 * Checkbox state to remove the Split Footer (Left) span completely - if enabled then remove.
 	 */
 	private $remove_split_footer_left;
 
 	/**
-	 * Split footer right content option.
+	 * Content from the Beans Simple Edits Split Footer (Right) textarea.
 	 */
 	private $split_footer_right;
 
 	/**
-	 * Remove split footer right content option.
+	 * Checkbox state to remove the Split Footer (Right) span completely - if enabled then remove.
 	 */
 	private $remove_split_footer_right;
 
 	/**
-	 * Display center footer option.
+	 * Content from the Beans Simple Edits Center Footer textarea.
 	 */
 	private $center_footer;
 
 	/**
-	 * Display center footer show option.
+	 * Checkbox state to display the Center Footer and disable any Split Footer - if enabled then display.
 	 */
 	private $show_center_footer;
 
@@ -79,7 +79,7 @@ class Beans_Simple_Edits_Core {
 	}
 
 	/**
-	 *
+	 * Initialize
 	 */
 	public function init() {
 
@@ -106,25 +106,20 @@ class Beans_Simple_Edits_Core {
 		}
 
 
-
 		if ( $this->show_center_footer ) {
 
-			beans_remove_action( 'beans_footer_content' );
+			beans_add_smart_action( 'after_setup_theme', array( $this, 'beans_simple_edits_replace_central_footer') );
 
-			beans_add_smart_action( 'beans_footer', array( $this, 'beans_simple_edits_footer_content' ) );
+		} elseif ( $this->split_footer_left || $this->split_footer_right ) {
 
-		} else {
-
-			beans_add_filter( 'beans_footer_credit_text_output', array( $this, 'modify_footer_credit_text_left' ), 9999 );
-
-			beans_add_filter( 'beans_footer_credit_right_text_output', array( $this, 'modify_footer_credit_text_right' ), 9999 );
+			beans_add_smart_action( 'after_setup_theme', array( $this, 'beans_simple_edits_replace_split_footers') );
 
 		}
 
 	}
 
 	/**
-	 *
+	 * Replace the standard above content post meta with the Beans Simple Edits above content post meta.
 	 */
 	function beans_simple_edits_post_meta() {
 
@@ -144,7 +139,7 @@ class Beans_Simple_Edits_Core {
 	}
 
 	/**
-	 *
+	 * Replace the standard below content post meta with the Beans Simple Edits below content post meta.
 	 */
 	function beans_simple_edits_post_meta_categories() {
 
@@ -160,62 +155,35 @@ class Beans_Simple_Edits_Core {
 	}
 
 	/**
-	 * @param $output
-	 *
-	 * @return string
+	 * Replace the footer content with the simple edits split footer if it is active.
+	 * Hooked to 'after_theme_setup' to ensure third party child theme footer customisations are overwritten.
 	 */
-	function modify_footer_credit_text_left( $output ) {
+	function beans_simple_edits_replace_split_footers() {
 
-		if ( $this->remove_split_footer_left ) {
+		beans_remove_action( 'beans_footer_content' );
 
-			return '';
-
-		}
-
-		if ( ! $this->split_footer_left ) {
-
-			return $output;
-
-		}
-
-		return do_shortcode( __( $this->split_footer_left, $this->plugin_textdomain ) );
+		beans_add_smart_action( 'beans_footer', array( $this, 'beans_simple_edits_split_footer' ) );
 
 	}
 
 	/**
-	 * @param $output
-	 *
-	 * @return string
+	 * Replace the footer content with the simple edits central footer if it is active.
+	 * Hooked to 'after_theme_setup' to ensure third party child theme footer customisations are overwritten.
 	 */
-	function modify_footer_credit_text_right( $output ) {
+	function beans_simple_edits_replace_central_footer() {
 
-		if ( $this->remove_split_footer_right ) {
+		beans_remove_action( 'beans_footer_content' );
 
-			return '';
-
-		}
-
-		if ( ! $this->split_footer_right ) {
-
-			return $output;
-
-		}
-
-		return do_shortcode( __( $this->split_footer_right, $this->plugin_textdomain ) );
-
-//		return beans_output_e(
-//			'beans_footer_center_credit_text',
-//			do_shortcode( __( $this->split_footer_right, $this->plugin_textdomain ) )
-//		);
-
+		beans_add_smart_action( 'beans_footer', array( $this, 'beans_simple_edits_center_footer' ) );
 	}
 
-	/**
-	 *
-	 */
-	function beans_simple_edits_footer_content() {
 
-		beans_open_markup_e( 'beans_footer_credit_hit', 'div', array(
+	/**
+	 * Output the Beans Simple Edits Center Footer
+	 */
+	function beans_simple_edits_center_footer() {
+
+		beans_open_markup_e( 'beans_footer_credit', 'div', array(
 			'class' => 'uk-clearfix uk-text-small uk-text-muted uk-align-center'
 		) );
 
@@ -256,4 +224,73 @@ class Beans_Simple_Edits_Core {
 
 	}
 
+	/**
+	 * Output the Beans Simple Edits Split Footer
+	 */
+	function beans_simple_edits_split_footer() {
+
+		if ( $this->split_footer_left ) {
+
+			ob_start();
+			beans_output_e( 'beans_footer_credit_text', sprintf(
+				__( '&#x000A9; %1$s - %2$s. All rights reserved.', 'tm-beans' ),
+				date( 'Y' ),
+				get_bloginfo( 'name' )
+			) );
+			$beans_left_credit = ob_get_clean();
+
+		} else {
+
+			$beans_left_credit =  do_shortcode( __( $this->split_footer_left, $this->plugin_textdomain ) );
+		}
+
+
+		if ( $this->split_footer_right ) {
+
+			$beans_right_credit = beans_open_markup( 'beans_footer_credit_framework_link', 'a', array(
+				'href' => 'http://www.getbeans.io', // Automatically escaped.
+				'rel'  => 'designer',
+			) );
+
+			$beans_right_credit .= beans_output( 'beans_footer_credit_framework_link_text', 'Beans' );
+
+			$beans_right_credit .= beans_close_markup( 'beans_footer_credit_framework_link', 'a' );
+
+			$beans_right_credit .= beans_output( 'beans_footer_credit_framework_after_link_text', ' theme for WordPress' );
+
+		} else {
+
+			$beans_right_credit =  do_shortcode( __( $this->split_footer_right, $this->plugin_textdomain ) );
+		}
+
+
+		beans_open_markup_e( 'beans_footer_credit', 'div', array( 'class' => 'uk-clearfix uk-text-small uk-text-muted' ) );
+
+		beans_open_markup_e( 'beans_footer_credit_left', 'span', array(
+			'class' => 'uk-align-medium-left uk-margin-small-bottom',
+		) );
+
+		beans_output_e(
+			'beans_footer_credit_text',
+			$beans_left_credit
+		);
+
+		beans_close_markup_e( 'beans_footer_credit_left', 'span' );
+
+		beans_open_markup_e( 'beans_footer_credit_right', 'span', array(
+			'class' => 'uk-align-medium-right uk-margin-bottom-remove',
+		) );
+
+		beans_output_e(
+			'beans_footer_credit_text',
+			$beans_right_credit
+		);
+
+		beans_close_markup_e( 'beans_footer_credit_right', 'span' );
+
+		beans_close_markup_e( 'beans_footer_credit', 'div' );
+	}
+
 }
+
+
