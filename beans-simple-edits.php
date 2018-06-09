@@ -11,7 +11,7 @@
  * @wordpress-plugin
  * Plugin Name:     Beans Simple Edits
  * Plugin URI:      http://github.com/JeffCleverley/BeansSimpleEdits
- * Description:     Description: Beans Simple Edits lets you edit three commonly modified areas in any Beans Child theme: the post-info, the post-meta, and the footer area. Based on the highly useful Genesis Simple Edits.
+ * Description:     Beans Simple Edits lets you edit three commonly modified areas in any Beans Child theme: the post-info, the post-meta, and the footer area.
  * Version:         1.0
  * Author:          Jeff Cleverley
  * Author URI:      https://learningcurve.xyz
@@ -46,7 +46,7 @@ add_action( 'switch_theme', __NAMESPACE__ . '\deactivate_when_beans_not_activate
 /**
  * If Beans is not the activated theme, deactivate this plugin and pop a die message when not switching themes.
  *
- * @since 0.1
+ * @since 1.0
  *
  * @return void
  */
@@ -68,7 +68,7 @@ function deactivate_when_beans_not_activated_theme() {
 /**
  * Autoload the plugin's files.
  *
- * @since 1.1.0
+ * @since 1.0
  *
  * @return void
  */
@@ -85,7 +85,7 @@ function autoload_files() {
 /**
  * Launch the plugin.
  *
- * @since 1.1.0
+ * @since 1.0
  *
  * @return void
  */

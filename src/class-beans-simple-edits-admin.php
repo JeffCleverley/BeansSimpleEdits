@@ -57,6 +57,8 @@ class Beans_Simple_Edits_Admin {
 
 	/**
 	 * Add beans simple edits menu.
+	 *
+	 * @since 1.0
 	 */
 	public function admin_menu() {
 
@@ -76,6 +78,8 @@ class Beans_Simple_Edits_Admin {
 	/**
 	 * Hook methods to register each of the simple edits metaboxes.
 	 *
+	 * @since 1.0
+	 *
 	 * @param $simple_edit string single item from the $simple_edits array.
 	 */
 	public function add_simple_edits( $simple_edit ) {
@@ -86,6 +90,8 @@ class Beans_Simple_Edits_Admin {
 
 	/**
 	 * Beans Simple Edits options page view.
+	 *
+	 * @since 1.0
 	 */
 	public function display_simple_edits_settings_screen() {
 
@@ -96,6 +102,8 @@ class Beans_Simple_Edits_Admin {
 
 	/**
 	 * Register the available Beans Simple Shortcodes metabox.
+	 *
+	 * @since 1.0
 	 */
 	public function register_simple_shortcodes_edits() {
 
@@ -129,6 +137,8 @@ class Beans_Simple_Edits_Admin {
 
 	/**
 	 * Register the Beans Simple Edits Entry Meta metabox.
+	 *
+	 * @since 1.0
 	 */
 	public function register_post_meta_edits() {
 
@@ -178,6 +188,8 @@ class Beans_Simple_Edits_Admin {
 
 	/**
 	 * Register the Beans Simple Edits Split Footer metabox
+	 *
+	 * @since 1.0
 	 */
 	public function register_split_footer_edits() {
 
@@ -227,6 +239,8 @@ class Beans_Simple_Edits_Admin {
 
 	/**
 	 * Register the Beans Simple Edits Center Footer metabox.
+	 *
+	 * @since 1.0
 	 */
 	public function register_center_footer_edits() {
 

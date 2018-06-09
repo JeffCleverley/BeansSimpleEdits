@@ -61,6 +61,8 @@ class Beans_Simple_Edits_Core {
 
 	/**
 	 * Constructor.
+	 *
+	 * @since 1.0
 	 */
 	public function __construct() {
 
@@ -80,6 +82,10 @@ class Beans_Simple_Edits_Core {
 
 	/**
 	 * Initialize
+	 *
+	 * Hook in callbacks to remove and replace the post meta and footer areas if the Beans Simple Edits areas are in operation.
+	 *
+	 * @since 1.0
 	 */
 	public function init() {
 
@@ -120,6 +126,8 @@ class Beans_Simple_Edits_Core {
 
 	/**
 	 * Replace the standard above content post meta with the Beans Simple Edits above content post meta.
+	 *
+	 * @since 1.0
 	 */
 	function beans_simple_edits_post_meta() {
 
@@ -140,6 +148,8 @@ class Beans_Simple_Edits_Core {
 
 	/**
 	 * Replace the standard below content post meta with the Beans Simple Edits below content post meta.
+	 *
+	 * @since 1.0
 	 */
 	function beans_simple_edits_post_meta_categories() {
 
@@ -157,6 +167,8 @@ class Beans_Simple_Edits_Core {
 	/**
 	 * Replace the footer content with the simple edits split footer if it is active.
 	 * Hooked to 'after_theme_setup' to ensure third party child theme footer customisations are overwritten.
+	 *
+	 * @since 1.0
 	 */
 	function beans_simple_edits_replace_split_footers() {
 
@@ -169,6 +181,8 @@ class Beans_Simple_Edits_Core {
 	/**
 	 * Replace the footer content with the simple edits central footer if it is active.
 	 * Hooked to 'after_theme_setup' to ensure third party child theme footer customisations are overwritten.
+	 *
+	 * @since 1.0
 	 */
 	function beans_simple_edits_replace_central_footer() {
 
@@ -177,9 +191,10 @@ class Beans_Simple_Edits_Core {
 		beans_add_smart_action( 'beans_footer', array( $this, 'beans_simple_edits_center_footer' ) );
 	}
 
-
 	/**
 	 * Output the Beans Simple Edits Center Footer
+	 *
+	 * @since 1.0
 	 */
 	function beans_simple_edits_center_footer() {
 
@@ -226,6 +241,8 @@ class Beans_Simple_Edits_Core {
 
 	/**
 	 * Output the Beans Simple Edits Split Footer
+	 *
+	 * @since 1.0
 	 */
 	function beans_simple_edits_split_footer() {
 
