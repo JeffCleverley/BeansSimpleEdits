@@ -2,6 +2,7 @@
 
 namespace LearningCurve\BeansSimpleEdits;
 
+
 class Beans_Simple_Edits {
 
 	/**

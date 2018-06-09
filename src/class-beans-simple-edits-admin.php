@@ -1,4 +1,5 @@
 <?php
+
 namespace LearningCurve\BeansSimpleEdits;
 
 class Beans_Simple_Edits_Admin {
@@ -19,6 +20,12 @@ class Beans_Simple_Edits_Admin {
 	public $simple_edits;
 
 	/**
+	 * The array of Beans Simple Shortcodes that can be used.
+	 */
+	public $simple_shortcodes;
+
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 1.0
@@ -28,6 +35,12 @@ class Beans_Simple_Edits_Admin {
 		$this->plugin_version    = Beans_Simple_Edits()->plugin_version;
 		$this->plugin_textdomain = Beans_Simple_Edits()->plugin_textdomain;
 		$this->simple_edits      = Beans_Simple_Edits()->simple_edits;
+
+		if ( class_exists( 'LearningCurve\BeansSimpleShortcodes\Beans_Simple_Shortcodes' ) ) {
+			$this->simple_shortcodes = \LearningCurve\BeansSimpleShortcodes\Beans_Simple_Shortcodes()->enabled_shortcodes;
+			array_unshift( $this->simple_edits, 'simple_shortcodes' );
+		}
+
 	}
 
 	/**
@@ -61,7 +74,7 @@ class Beans_Simple_Edits_Admin {
 	}
 
 	/**
-	 * Add each of the simple edits.
+	 * Hook methods to register each of the simple edits metaboxes.
 	 *
 	 * @param $simple_edit string single item from the $simple_edits array.
 	 */
@@ -72,7 +85,7 @@ class Beans_Simple_Edits_Admin {
 	}
 
 	/**
-	 * Beans options page content.
+	 * Beans Simple Edits options page view.
 	 */
 	public function display_simple_edits_settings_screen() {
 
@@ -80,8 +93,42 @@ class Beans_Simple_Edits_Admin {
 
 	}
 
+
 	/**
-	 * Register options.
+	 * Register the available Beans Simple Shortcodes metabox.
+	 */
+	public function register_simple_shortcodes_edits() {
+
+		$shortcodes = $this->simple_shortcodes;
+
+		$available_shortcodes = [];
+
+		foreach ( $shortcodes as $shortcode ) {
+			$available_shortcodes[] = '<span style="display: inline-block; margin: 10px 15px;"> [beans_' . $shortcode . ']</span>';
+		}
+
+		$available_shortcodes = implode( " ", $available_shortcodes );
+
+		$shortcodes_settings = esc_url( get_site_url() . '/wp-admin/themes.php?page=beans_simple_shortcodes_settings' );
+
+		$fields = array(
+			array(
+				'id'          => 'beans_available_simple_shortcodes',
+				'label'       => __( 'For a full description of each shortcodes functionality and attributes, and to enable or disable different shortcodes, please refer to the <a href="' . $shortcodes_settings . '">Beans Simple Shortcodes settings page</a>', $this->plugin_textdomain ),
+				'description' => __( "<p style='text-align: left;'>{$available_shortcodes}</p>", $this->plugin_textdomain ),
+				'type'        => '',
+				'default'     => ''
+			),
+		);
+
+		beans_register_options( $fields, 'beans_simple_edits_settings', 'available_beans_simple_shortcodes', array(
+			'title'   => __( 'Available Beans Simple Shortcodes', $this->plugin_textdomain ),
+			'context' => 'normal',
+		) );
+	}
+
+	/**
+	 * Register the Beans Simple Edits Entry Meta metabox.
 	 */
 	public function register_post_meta_edits() {
 
@@ -123,14 +170,14 @@ class Beans_Simple_Edits_Admin {
 		);
 
 		beans_register_options( $fields, 'beans_simple_edits_settings', 'beans_post_meta_edits', array(
-			'title'   => __( 'Beans Entry Meta Edits', $this->plugin_textdomain ),
+			'title'   => __( 'Beans Simple Edits Entry Meta', $this->plugin_textdomain ),
 			'context' => 'normal',
 		) );
 
 	}
 
 	/**
-	 * Register options.
+	 * Register the Beans Simple Edits Split Footer metabox
 	 */
 	public function register_split_footer_edits() {
 
@@ -172,14 +219,14 @@ class Beans_Simple_Edits_Admin {
 		);
 
 		beans_register_options( $fields, 'beans_simple_edits_settings', 'beans_split_footer_text_credits_edits', array(
-			'title'   => __( 'Beans Standard (Split) Footer Credit Text Edits', $this->plugin_textdomain ),
+			'title'   => __( 'Beans Simple Edits Split Footer', $this->plugin_textdomain ),
 			'context' => 'normal',
 		) );
 
 	}
 
 	/**
-	 * Register options.
+	 * Register the Beans Simple Edits Center Footer metabox.
 	 */
 	public function register_center_footer_edits() {
 
@@ -204,7 +251,7 @@ class Beans_Simple_Edits_Admin {
 		);
 
 		beans_register_options( $fields, 'beans_simple_edits_settings', 'beans_center_footer_edits', array(
-			'title'   => __( 'Create a Centered Beans Footer', $this->plugin_textdomain ),
+			'title'   => __( 'Beans Simple Edits Center Footer', $this->plugin_textdomain ),
 			'context' => 'normal',
 		) );
 
