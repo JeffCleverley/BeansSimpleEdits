@@ -168,6 +168,7 @@ class Beans_Simple_Edits_Core {
 	 * Replace the footer content with the simple edits split footer if it is active.
 	 * Hooked to 'after_theme_setup' to ensure third party child theme footer customisations are overwritten.
 	 *
+	 * Will refactor to create hook separate callbacks in for left and right footer - to stay dry
 	 * @since 1.0
 	 */
 	function beans_simple_edits_replace_split_footers() {
@@ -241,6 +242,8 @@ class Beans_Simple_Edits_Core {
 
 	/**
 	 * Output the Beans Simple Edits Split Footer
+	 *
+	 * Will be refactored into separate functions for left and right footer to simplify and stay dry
 	 *
 	 * @since 1.0
 	 */
