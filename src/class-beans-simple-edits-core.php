@@ -246,7 +246,7 @@ class Beans_Simple_Edits_Core {
 	 */
 	function beans_simple_edits_split_footer() {
 
-		if ( $this->split_footer_left ) {
+		if ( ! $this->split_footer_left &&  ! $this->remove_split_footer_left ) {
 
 			ob_start();
 			beans_output_e( 'beans_footer_credit_text', sprintf(
@@ -262,7 +262,7 @@ class Beans_Simple_Edits_Core {
 		}
 
 
-		if ( $this->split_footer_right ) {
+		if ( ! $this->split_footer_right &&  ! $this->remove_split_footer_right ) {
 
 			$beans_right_credit = beans_open_markup( 'beans_footer_credit_framework_link', 'a', array(
 				'href' => 'http://www.getbeans.io', // Automatically escaped.
@@ -281,31 +281,39 @@ class Beans_Simple_Edits_Core {
 		}
 
 
-		beans_open_markup_e( 'beans_footer_credit', 'div', array( 'class' => 'uk-clearfix uk-text-small uk-text-muted' ) );
+		if ( ! $this->remove_split_footer_left ) {
 
-		beans_open_markup_e( 'beans_footer_credit_left', 'span', array(
-			'class' => 'uk-align-medium-left uk-margin-small-bottom',
-		) );
+			beans_open_markup_e( 'beans_footer_credit', 'div', array( 'class' => 'uk-clearfix uk-text-small uk-text-muted' ) );
 
-		beans_output_e(
-			'beans_footer_credit_text',
-			$beans_left_credit
-		);
+			beans_open_markup_e( 'beans_footer_credit_left', 'span', array(
+				'class' => 'uk-align-medium-left uk-margin-small-bottom',
+			) );
 
-		beans_close_markup_e( 'beans_footer_credit_left', 'span' );
+			beans_output_e(
+				'beans_footer_credit_text',
+				$beans_left_credit
+			);
 
-		beans_open_markup_e( 'beans_footer_credit_right', 'span', array(
-			'class' => 'uk-align-medium-right uk-margin-bottom-remove',
-		) );
+			beans_close_markup_e( 'beans_footer_credit_left', 'span' );
+		}
 
-		beans_output_e(
-			'beans_footer_credit_text',
-			$beans_right_credit
-		);
+		if ( ! $this->remove_split_footer_right ) {
 
-		beans_close_markup_e( 'beans_footer_credit_right', 'span' );
+			beans_open_markup_e( 'beans_footer_credit_right', 'span', array(
+				'class' => 'uk-align-medium-right uk-margin-bottom-remove',
+			) );
 
-		beans_close_markup_e( 'beans_footer_credit', 'div' );
+			beans_output_e(
+				'beans_footer_credit_text',
+				$beans_right_credit
+			);
+
+			beans_close_markup_e( 'beans_footer_credit_right', 'span' );
+
+			beans_close_markup_e( 'beans_footer_credit', 'div' );
+		}
+
+
 	}
 
 }
